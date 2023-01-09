@@ -9,7 +9,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methodes', 'GET', 'POST');
     next();
 })
-app.use('/part-one/all-stuff', (req, res) => {
+
+app.use('/', (req, res) => {
 
     const stuff = [
         {
