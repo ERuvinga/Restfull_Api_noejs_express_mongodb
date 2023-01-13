@@ -6,19 +6,20 @@ const app = express();  // methode express
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methodes', 'GET', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST', 'PUT', 'DELETE');
     next();
-})
+});
 
-app.use('/', (req, res) => {
+app.use('/api/stuff', (req, res) => {
 
     const stuff = [
         {
             _id: '1234',
             title: "mon article",
-            description: "description de l'article",
+            description: "Camera",
             imageUrl: "",
-            useId: 25
+            UserId: "elie"
         }
     ]
     res.json(stuff);
