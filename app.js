@@ -6,12 +6,14 @@ const app = express();  // methode express
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST', 'PUT', 'DELETE');
     next();
 });
 
-app.use('/api/stuff', (req, res) => {
+app.use(express.json()); // add express method parsing body data
+
+app.get('/api/stuff', (req, res) => {
 
     const stuff = [
         {
@@ -24,6 +26,13 @@ app.use('/api/stuff', (req, res) => {
     ]
     res.json(stuff);
     res.status(200);
+});
+
+app.post('/api/stuff', (req, res) =>{
+    res.json({
+        message: req.body,
+    })
+    console.log(req.body);
 });
 
 

@@ -2,7 +2,7 @@
 
 const http = require('http');
 const app = require('./app');
-
+require('./db')
 
 const normalPort = val => {
     const port = parseInt(val, 10);
