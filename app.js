@@ -29,6 +29,20 @@ app.get('/api/stuff', (req, res) => { //find any objets
 
 });
 
+app.get('/api/stuff/:id', (req, res)=>{
+    const _idOfThing = req.params.id;
+    console.log(_idOfThing);
+    thing.findOne({_id:_idOfThing})
+    .then(dataThing => {
+        res.status(200);
+        res.json(dataThing);
+    })
+    .catch(error => {
+        res.status(400);
+        res.json({error});
+    })
+});
+
 app.post('/api/stuff', (req, res) =>{ // for create new objet
 
     const Thing = new thing({
@@ -41,13 +55,12 @@ app.post('/api/stuff', (req, res) =>{ // for create new objet
     Thing.save((error)=>{
         if(error){
             res.status(400);
-            res.json({Thing});
-            console.log(error);
+            res.json({Error: "thing don't save"});
         }
 
         else{
             res.status(200);
-            res.json({Thing}); 
+            res.json({message : "thing Created"}); 
         }
     })
 });
