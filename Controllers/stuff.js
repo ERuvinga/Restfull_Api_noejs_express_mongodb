@@ -16,7 +16,6 @@ exports.getAllThings = (req, res) => { // get all things
 
 exports.getOneThing = (req, res)=>{ //get one thing
     const _idOfThing = req.params.id;
-    //console.log(_idOfThing);
 
     thing.findOne({_id:_idOfThing})
     .then(dataThing => {
