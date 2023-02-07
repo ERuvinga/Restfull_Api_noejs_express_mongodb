@@ -40,6 +40,7 @@ exports.createThing = (req, res) =>{  // create a new thing
         if(error){
             res.status(400);
             res.json({Error: "thing don't save"});
+            console.log(error)
         }
 
         else{
@@ -56,9 +57,10 @@ exports.updateThing = (req, res)=>{  //update a datas of thing
         description: req.body.description,
         imageUrl:req.body.imageUrl,
         price:req.body.price,
+        userId:req.body.userId,
     };
 
-    console.log(_newsData);
+    console.log(req.body);
 
     thing.replaceOne({_id: _idOfThing},{..._newsData})
     .then(() => {
