@@ -13,7 +13,8 @@ exports.signup = (req, res) =>{
     bcrypt.hash(password, saltpassword) //hashing a password
     .then(hash => { // if operation is okey, create un new user
         const User = new user({
-           ...req.body,
+            email : req.body.email,
+            password : hash //save a crypt password in data base
         })
 
         User.save() // save a new user in database from 'user' model
