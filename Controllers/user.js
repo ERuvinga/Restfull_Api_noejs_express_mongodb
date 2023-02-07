@@ -12,23 +12,32 @@ exports.login = (req, res) =>{
     user.findOne({email: dataOfLogin.email}) // verify  email data if 's available in database
     .then(User => {
         if(!User){
-            console.log("login/password incorect");
+            console.log("login and password incorect");
             return res.status(401).json({message:"login/password incorect"});
+
         }
 
         else{
-            console.log(User);
+           // console.log(req.headers.authorization);
             bcrypt.compare(dataOfLogin.password, User.password)
             .then(validate => {
-                console.log("User corect");
-                res.status(200);
-                res.json({
-                    token:"YOUR TOKEN",
-                })
+                    if (validate){
+                        res.status(200);
+                        res.json({
+                            userId: User._id,
+                            token:"YOUR TOKEN",
+                    })                        
+                    console.log("User corect");
+                }
+                else{
+                    res.status(401);
+                    res.json({message:"Unauthorized user"});
+                    console.error("login & password incorect");
+                }
             })
             .catch(error => {
                 res.status(401);
-                res.json({message:"login/password incorect"})
+                res.json({message:"Unauthorized User"})
             })
         }
     })
