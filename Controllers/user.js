@@ -35,7 +35,7 @@ exports.login = (req, res) =>{
                         res.status(200);
                         res.json({
                             userId: User._id,
-                            token:"YOUR TOKEN"
+                            token:token
                     })                        
                     console.log("User corect");
                 }
