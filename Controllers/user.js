@@ -1,6 +1,7 @@
 
 const user = require('../Models/users');
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 exports.login = (req, res) =>{
     
@@ -9,26 +10,36 @@ exports.login = (req, res) =>{
         password: req.body.password
     }
 
+    let token = Number;
+
     user.findOne({email: dataOfLogin.email}) // verify  email data if 's available in database
     .then(User => {
         if(!User){
             console.log("login and password incorect");
-            return res.status(401).json({message:"login/password incorect"});
-
+            return res.status(401).json({message:"login/password incorect"});     
         }
 
         else{
-           // console.log(req.headers.authorization);
             bcrypt.compare(dataOfLogin.password, User.password)
-            .then(validate => {
-                    if (validate){
+            .then(validpwd => {
+                    if (validpwd){
+                       
+                        const dataOfToken = { // create a token
+                            playload: {
+                                userId : User._id
+                            },
+                            secreteKey: '_RANDOM/\SECRETEkEY',
+                        }
+
+                        token = jwt.sign(dataOfToken.playload, dataOfToken.secreteKey, {expiresIn:'12h'});
                         res.status(200);
                         res.json({
                             userId: User._id,
-                            token:"YOUR TOKEN",
+                            token:"YOUR TOKEN"
                     })                        
                     console.log("User corect");
                 }
+
                 else{
                     res.status(401);
                     res.json({message:"Unauthorized user"});
@@ -38,6 +49,7 @@ exports.login = (req, res) =>{
             .catch(error => {
                 res.status(401);
                 res.json({message:"Unauthorized User"})
+                console.log(error)
             })
         }
     })
